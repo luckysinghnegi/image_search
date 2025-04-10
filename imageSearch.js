@@ -1,18 +1,47 @@
-// let userchoice = prompt("enter image searchn!");
+let userSearch = document.getElementById("search");
+let submitBtn = document.getElementById("submit");
 
-// let testUrl = `https://api.unsplash.com/search/photos?page=1&query=${userchoice}&client_id=yeD_wBaTcTYGDx1UNEvG5eGT6YNeaYLmPJOK1W2VeRQ`;
-let arr;
 
-fetch(testUrl).then((response1) => {
-    return response1.json();
-}).then((res) => {
-    let arrLength = res.results.length;
-    console.log(arrLength);
-    for (let i = 0; i < arrLength; i++) {
-        console.log(res.results[i].urls.full);
+
+submitBtn.addEventListener("click", () => {
+    let userValue = userSearch.value;
+    if (userValue.length == 0) {
+        alert("PLEASE ENTER SOME VALUE IN THE SEARCH BAR!");
+    } else {
+        let testUrl = `https://api.unsplash.com/search/photos?page=1&query=${userValue}&client_id=yeD_wBaTcTYGDx1UNEvG5eGT6YNeaYLmPJOK1W2VeRQ`;
+        opreterFetch(testUrl);
+        userSearch.value = "";
     }
-}).catch((error) => {
-    console.log(error);
 })
+
+function opreterFetch(ulS) {
+    fetch(ulS).then((response1) => {
+        return response1.json();
+    }).then((res) => {
+        for (let i = 0; i < 10; i++) {
+            let image = document.getElementById(`img${i}`);
+            let fetchImg = res.results[i].urls.thumb;
+            manipulateSrc(image, fetchImg)
+        }
+    }).catch((error) => {
+        console.log(error);
+        alert("PLEAR ENTER VALID IMAGES!")
+    })
+}
+
+
+
+function manipulateSrc(oldImg, newImg) {
+    oldImg.setAttribute("src", newImg);
+}
+
+
+
+
+
+
+
+
+
 
 
